@@ -1,22 +1,27 @@
-<?php include 'connection.inc.php';
+<?php
 include 'functions.inc.php';
 
 if (isset($_POST['login'])) {
-   $username = get_safe_value($conn,$_POST['username']);
-   $password = get_safe_value($conn,$_POST['password']);
-   $sql = "SELECT * FROM `admin_users` WHERE `username`='$username' and `password`='$password' ";
-   $res = mysqli_query($conn,$sql);
+
+   $username = get_safe_value($conn, $_POST['username']);
+   $password = get_safe_value($conn, $_POST['password']);
+
+   $sql = "SELECT * FROM `admin_users` WHERE `username`='" . $username . "' and `password`='" . $password . "'";
+
+   $res = mysqli_query($conn, $sql);
    $count = mysqli_num_rows($res);
-   if($count > 0){
-      $_SESSION['ADMIN_LOGIN'] == 'yes';
-      $_SESSION['ADMIN_USERNAME'] == $username;
-      header('location:categories.php');
-   }else{
+   if ($count > 0) {
+      /*printAndDie('after query');*/
+      $_SESSION['ADMIN_LOGIN'] = 'yes';
+      $_SESSION['ADMIN_USERNAME'] = $username;
+      header('location:Categories.php');
+   } else {
       $msg = "Please Enter COreect Details";
       echo $msg;
    }
 }
 ?>
+
 
 <!doctype html>
 <html class="no-js" lang="">
@@ -52,7 +57,7 @@ if (isset($_POST['login'])) {
                      <label>Password</label>
                      <input type="password" name="password" class="form-control" placeholder="Password" required>
                   </div>
-                  <button type="login" name="login" class="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
+                  <button type="submit" name="login" class="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
                </form>
             </div>
          </div>
