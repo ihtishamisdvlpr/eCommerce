@@ -1,6 +1,8 @@
 <?php
 include 'functions.inc.php';
-
+if(isset($_SESSION['is_login']) && $_SESSION['is_login'] == true){
+   header('location:Categories.php');
+}
 if (isset($_POST['login'])) {
 
    $username = get_safe_value($conn, $_POST['username']);
@@ -12,7 +14,7 @@ if (isset($_POST['login'])) {
    $count = mysqli_num_rows($res);
    if ($count > 0) {
       /*printAndDie('after query');*/
-      $_SESSION['ADMIN_LOGIN'] = 'yes';
+      $_SESSION['is_login'] = true;
       $_SESSION['ADMIN_USERNAME'] = $username;
       header('location:Categories.php');
    } else {

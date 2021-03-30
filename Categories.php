@@ -1,6 +1,6 @@
 <?php require 'top.inci.php';
 
-$sql = "SELECT * FROM `categories` ORDER BY categories desc";
+$sql = "SELECT * FROM `categories` ORDER BY categories asc";
 $res = mysqli_query($conn,$sql);
  ?>
 <div class="content pb-0">
@@ -23,13 +23,21 @@ $res = mysqli_query($conn,$sql);
                            </tr>
                         </thead>
                         <tbody>
-                           <?php 
+                        <?php
+                              $i = 1;
+                              while($row = mysqli_fetch_assoc($res)){
+                        ?>
                               <tr>
-                                  <td class="serial">2.</td>
-                                  <td>asd</td>
-                                  <td>asd</td>
-                                  <td>asd</td>
+                                  <td class="serial"><?php echo $i; ?></td>
+                                  <td><?php echo $row['id']; ?></td>
+                                  <td><?php echo $row['categories']; ?></td>
+                                  <td><?php if($row['status']==1){
+                                     echo "Active";
+                                  }else{echo "Deactive";} ?></td>
                               </tr>
+
+
+                        <?php } ?>  
                         </tbody>
                      </table>
                   </div>
