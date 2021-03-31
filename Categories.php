@@ -1,8 +1,23 @@
 <?php require 'top.inci.php';
 
+if(isset($_GET['type']) && $_GET['type'] !=''){
+   $type = get_safe_value($conn,$_GET['type']);
+   if($type == 'status'){
+      $operation = get_safe_value($conn,$_GET['operation']);
+      $id=get_safe_value($conn,$_GET['id']);
+      if($operation=='active'){
+         $status = '1';
+      }else{
+         $status='0';
+      }
+      $update_status = "UPDATE categories SET `status`='" .$status. "' WHERE id='" .$id. "'";
+      $res = mysqli_query($conn,$update_status);
+   }
+}
+
 $sql = "SELECT * FROM `categories` ORDER BY categories asc";
-$res = mysqli_query($conn,$sql);
- ?>
+$res = mysqli_query($conn, $sql);
+?>
 <div class="content pb-0">
    <div class="orders">
       <div class="row">
@@ -23,21 +38,24 @@ $res = mysqli_query($conn,$sql);
                            </tr>
                         </thead>
                         <tbody>
-                        <?php
-                              $i = 1;
-                              while($row = mysqli_fetch_assoc($res)){
-                        ?>
+                           <?php
+                           $i = 1;
+                           while ($row = mysqli_fetch_assoc($res)) {
+                           ?>
                               <tr>
-                                  <td class="serial"><?php echo $i; ?></td>
-                                  <td><?php echo $row['id']; ?></td>
-                                  <td><?php echo $row['categories']; ?></td>
-                                  <td><?php if($row['status']==1){
-                                     echo "Active";
-                                  }else{echo "Deactive";} ?></td>
+                                 <td class="serial"><?php echo $i; ?></td>
+                                 <td><?php echo $row['id']; ?></td>
+                                 <td><?php echo $row['categories']; ?></td>
+                                 <td>
+                                    <?php if ($row['status'] == 1) {
+                                       echo "<a href='?type=status&operation=deactive&id=" . $row['id'] . "'>deactive</a>";
+                                    } else {
+                                       echo "<a href='?type=status&operation=active&id=" . $row['id'] . "'>active</a>";
+                                    } ?>
+                                 </td>
                               </tr>
 
-
-                        <?php } ?>  
+                           <?php } ?>
                         </tbody>
                      </table>
                   </div>

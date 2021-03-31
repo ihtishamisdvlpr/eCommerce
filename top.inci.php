@@ -1,11 +1,11 @@
 <?php
 include 'functions.inc.php';
 
-//  if (isset($_SESSION['is_login']) && $_SESSION['ADMIN_USERNAME'] != '') {
-//  } else {
-//      header('location:login.php');
-//      die();
-// }
+  if (isset($_SESSION['is_login']) && $_SESSION['ADMIN_USERNAME'] != '') {
+  } else {
+      header('location:login.php');
+      die();
+ }
 ?>
 
 <!doctype html>
