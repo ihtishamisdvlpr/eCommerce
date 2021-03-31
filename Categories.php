@@ -15,6 +15,12 @@ if(isset($_GET['type']) && $_GET['type'] !=''){
    }
 }
 
+if($type=='delete'){
+   $id=get_safe_value($conn,$_GET['id']);
+   $delete_sql="DELETE FROM `categories` where `id`='".$id."'";
+   mysqli_query($conn,$delete_sql);
+}
+
 $sql = "SELECT * FROM `categories` ORDER BY categories asc";
 $res = mysqli_query($conn, $sql);
 ?>
@@ -48,10 +54,13 @@ $res = mysqli_query($conn, $sql);
                                  <td><?php echo $row['categories']; ?></td>
                                  <td>
                                     <?php if ($row['status'] == 1) {
-                                       echo "<a href='?type=status&operation=deactive&id=" . $row['id'] . "'>deactive</a>";
+                                       echo "<a href='?type=status&operation=deactive&id=" . $row['id'] . "'>deactive</a>|";
                                     } else {
-                                       echo "<a href='?type=status&operation=active&id=" . $row['id'] . "'>active</a>";
-                                    } ?>
+                                       echo "<a href='?type=status&operation=active&id=" . $row['id'] . "'>active</a>|";
+                                    } 
+
+                                    echo "<a href='?type=delete&id=" . $row['id'] . "'>Delete</a>";
+                                    ?>
                                  </td>
                               </tr>
 
