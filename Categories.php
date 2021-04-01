@@ -1,5 +1,5 @@
 <?php require 'top.inci.php';
-
+$type = '';
 if(isset($_GET['type']) && $_GET['type'] !=''){
    $type = get_safe_value($conn,$_GET['type']);
    if($type == 'status'){
@@ -31,6 +31,7 @@ $res = mysqli_query($conn, $sql);
             <div class="card">
                <div class="card-body">
                   <h4 class="box-title">Orders </h4>
+                  <a href="manage_categories.php">Add Category</a>
                </div>
                <div class="card-body--">
                   <div class="table-stats order-table ov-h">
@@ -59,7 +60,8 @@ $res = mysqli_query($conn, $sql);
                                        echo "<a href='?type=status&operation=active&id=" . $row['id'] . "'>active</a>|";
                                     } 
 
-                                    echo "<a href='?type=delete&id=" . $row['id'] . "'>Delete</a>";
+                                    echo "<a href='?type=delete&id=" . $row['id'] . "'>Delete</a>|";
+                                    echo "<a href='manage_categories.php?id=" . $row['id'] . "'>Edit</a>";
                                     ?>
                                  </td>
                               </tr>
