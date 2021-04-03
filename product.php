@@ -10,18 +10,18 @@ if (isset($_GET['type']) && $_GET['type'] != '') {
       } else {
          $status = '0';
       }
-      $update_status = "UPDATE categories SET `status`='" . $status . "' WHERE id='" . $id . "'";
+      $update_status = "UPDATE `product` SET `status`='" . $status . "' WHERE id='" . $id . "'";
       $res = mysqli_query($conn, $update_status);
    }
 }
 
 if ($type == 'delete') {
    $id = get_safe_value($conn, $_GET['id']);
-   $delete_sql = "DELETE FROM `categories` where `id`='" . $id . "'";
+   $delete_sql = "DELETE FROM `product` where `id`='" . $id . "'";
    mysqli_query($conn, $delete_sql);
 }
 
-$sql = "SELECT * FROM `categories` ORDER BY categories asc";
+$sql = "SELECT `product`.*,`categories`.`categories` FROM `product`,`categories` WHERE `product`.`categories_id`=`categories.id` ORDER BY `prduct.id` desc";
 $res = mysqli_query($conn, $sql);
 ?>
 <div class="content pb-0">
@@ -30,8 +30,8 @@ $res = mysqli_query($conn, $sql);
          <div class="col-xl-12">
             <div class="card">
                <div class="card-body">
-                  <h4 class="box-title">Orders </h4>
-                  <a href="manage_categories.php">Add Category</a>
+                  <h4 class="box-title">Products</h4>
+                  <a href="manage_product.php">Add Products</a>
                </div>
                <div class="card-body--">
                   <div class="table-stats order-table ov-h">
@@ -41,7 +41,12 @@ $res = mysqli_query($conn, $sql);
                               <th class="serial">#</th>
                               <th>ID</th>
                               <th>Categories</th>
-                              <th>Status</th>
+                              <th>Name</th>
+                              <th>Image</th>
+                              <th>MRP</th>
+                              <th>Price</th>
+                              <th>Qty</th>
+                              <th></th>
                            </tr>
                         </thead>
                         <tbody>
@@ -53,6 +58,11 @@ $res = mysqli_query($conn, $sql);
                                  <td class="serial"><?php echo $i; ?></td>
                                  <td><?php echo $row['id']; ?></td>
                                  <td><?php echo $row['categories']; ?></td>
+                                 <td><?php echo $row['name']; ?></td>
+                                 <td><?php echo $row['image']; ?></td>
+                                 <td><?php echo $row['mrp']; ?></td>
+                                 <td><?php echo $row['price']; ?></td>
+                                 <td><?php echo $row['qty']; ?></td>
                                  <td>
                                     <?php if ($row['status'] == 1) {
                                        echo "<a href='?type=status&operation=deactive&id=" . $row['id'] . "'>deactive</a>|";

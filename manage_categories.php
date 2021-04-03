@@ -18,8 +18,18 @@ if (isset($_POST['submit_category'])) {
     $res = mysqli_query($conn, "SELECT * FROM categories WHERE id='" . $id . "'");
     $check = mysqli_num_rows($res);
     if ($check > 0) {
-        echo $msg = "Category Already Exist";
-    } else {
+        if (isset($_GET['id']) && $_GET['id'] != '') {
+            $getData = mysqli_fetch_assoc($res);
+            if ($id == $getData['id']) {
+                
+            } else {
+                echo $msg = "Category Already Exist";
+            }
+        } else {
+            echo $msg = "Category Already Exist";
+        }
+    }
+    if ($msg == '') {
         if (isset($_GET['id']) && $_GET['id'] != '') {
             mysqli_query($conn, "UPDATE `categories` SET `categories`='" . $category . "' WHERE `id`='" . $id . "'");
         } else {
