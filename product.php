@@ -21,7 +21,7 @@ if ($type == 'delete') {
    mysqli_query($conn, $delete_sql);
 }
 
-$sql = "SELECT `product`.*,`categories`.`categories` FROM `product`,`categories` WHERE `product`.`categories_id`=`categories.id` ORDER BY `prduct.id` desc";
+$sql = "select * from product left join categories on product.categories_id = categories.id order by product.id desc";
 $res = mysqli_query($conn, $sql);
 ?>
 <div class="content pb-0">
