@@ -3,25 +3,24 @@ $categories = '';
 $msg = '';
 if (isset($_GET['id']) && $_GET['id'] != '') {
     $id = get_safe_value($conn, $_GET['id']);
-    $res = mysqli_query($conn, "SELECT * FROM categories WHERE id='" . $id . "'");
+    $res = mysqli_query($conn, "SELECT * FROM product WHERE id='" . $id . "'");
     $check = mysqli_num_rows($res);
     if ($check > 0) {
         $row = mysqli_fetch_assoc($res);
         $categories = $row['categories'];
     } else {
-        header('location:categories.php');
+        header('location:product.php');
         die();
     }
 }
 if (isset($_POST['submit_category'])) {
     $category = get_safe_value($conn, $_POST['categories']);
-    $res = mysqli_query($conn, "SELECT * FROM categories WHERE id='" . $id . "'");
+    $res = mysqli_query($conn, "SELECT * FROM product WHERE id='" . $id . "'");
     $check = mysqli_num_rows($res);
     if ($check > 0) {
         if (isset($_GET['id']) && $_GET['id'] != '') {
             $getData = mysqli_fetch_assoc($res);
             if ($id == $getData['id']) {
-                
             } else {
                 echo $msg = "Category Already Exist";
             }
@@ -54,8 +53,14 @@ if (isset($_POST['submit_category'])) {
 
 <body>
     <div class="container">
-        <h4>Add Category Name</h4>
+        <h4>Add product</h4>
         <form method="POST">
+        <div class="form-group">
+              <select class="form-control" name="categories_id">
+              <option>Select Categories</option>
+              
+              </select>
+            </div>
             <div class="form-group">
                 <input type="text" class="form-control" value="<?php echo $categories ?>" name="categories" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Category Name" required>
             </div>
