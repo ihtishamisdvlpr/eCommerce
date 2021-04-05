@@ -1,5 +1,20 @@
 <?php require 'top.inci.php';
-$categories = '';
+$categories_id = '';
+$name = '';
+$mrp = '';
+$price = '';
+$qty = '';
+$image = '';
+$short_desc = '';
+$description = '';
+$meta_title= '';
+$meta_desc = '';
+$meta_keyword = '';
+
+
+
+
+
 $msg = '';
 if (isset($_GET['id']) && $_GET['id'] != '') {
     $id = get_safe_value($conn, $_GET['id']);
@@ -68,9 +83,46 @@ if (isset($_POST['submit_category'])) {
                 </select>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="categories" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Category Name" required>
+                <input type="text" class="form-control" value="<?php echo $name; ?>" name="name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Name" required>
             </div>
-            <br />
+            </b>
+            <div class="form-group">
+                <input type="text" class="form-control" value="<?php echo $mrp; ?>" name="mrp" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct MRP" required>
+            </div>
+            </b>
+            <div class="form-group">
+                <input type="text" class="form-control" value="<?php echo $price; ?>" name="price" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Price" required>
+            </div>
+            </b>
+            <div class="form-group">
+                <input type="text" class="form-control" value="<?php echo $qty; ?>" name="qty" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Quantity" required>
+            </div>
+            </b>
+            <div class="form-group">
+                <textarea type="text" class="form-control" value="<?php echo $short_desc; ?>" name="short_desc" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Short Description" required></textarea>
+            </div>
+            </b>
+            <div class="form-group">
+                <textarea type="text" class="form-control" value="<?php echo $description; ?>" name="description" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Description" required></textarea>
+            </div>
+            </b>
+            <div class="form-group">
+                <textarea type="text" class="form-control" value="<?php echo $meta_title; ?>" name="meta_title" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Title" required></textarea>
+            </div>
+            </b>
+            <div class="form-group">
+                <textarea type="text" class="form-control" value="<?php echo $meta_desc; ?>" name="meta_desc" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Description" required></textarea>
+            </div>
+            </b>
+            <div class="form-group">
+                <textarea type="text" class="form-control" value="<?php echo $meta_keyword; ?>" name="meta_keyword" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Keyword" required></textarea>
+            </div>
+            </b>
+            <div class="form-group">
+                <input type="file" class="form-control" value="<?php echo $image; ?>" name="image" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Image" required>
+            </div>
+            </b>
+
             <button type="submit" name="submit_category" class="btn btn-primary">Submit Category</button>
         </form>
     </div>
