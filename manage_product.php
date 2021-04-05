@@ -7,7 +7,7 @@ $qty = '';
 $image = '';
 $short_desc = '';
 $description = '';
-$meta_title= '';
+$meta_title = '';
 $meta_desc = '';
 $meta_keyword = '';
 
@@ -29,28 +29,37 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
     }
 }
 if (isset($_POST['submit_category'])) {
-    $category = get_safe_value($conn, $_POST['categories']);
-    $res = mysqli_query($conn, "SELECT * FROM product WHERE id='" . $id . "'");
+    $category = get_safe_value($conn, $_POST['categories_id']);
+    $name = get_safe_value($conn, $_POST['name']);
+    $mrp = get_safe_value($conn, $_POST['mrp']);
+    $price = get_safe_value($conn, $_POST['price']);
+    $short_desc = get_safe_value($conn, $_POST['short_desc']);
+    $description = get_safe_value($conn, $_POST['description']);
+    $meta_title = get_safe_value($conn, $_POST['meta_title']);
+    $meta_desc = get_safe_value($conn, $_POST['meta_desc']);
+    $meta_keyword = get_safe_value($conn, $_POST['meta_keyword']);
+    $image = get_safe_value($conn, $_POST['image']);
+    $res = mysqli_query($conn, "SELECT * FROM product WHERE `name`='" . $name . "'");
     $check = mysqli_num_rows($res);
     if ($check > 0) {
         if (isset($_GET['id']) && $_GET['id'] != '') {
             $getData = mysqli_fetch_assoc($res);
             if ($id == $getData['id']) {
             } else {
-                echo $msg = "Category Already Exist";
+                echo $msg = "Product Already Exist";
             }
         } else {
-            echo $msg = "Category Already Exist";
+            echo $msg = "Product Already Exist";
         }
     }
     if ($msg == '') {
         if (isset($_GET['id']) && $_GET['id'] != '') {
-            mysqli_query($conn, "UPDATE `categories` SET `categories`='" . $category . "' WHERE `id`='" . $id . "'");
+            mysqli_query($conn, "UPDATE `product` SET `categories_id`='" . $categories_id . "' ,`name`='" . $name . "',`mrp`='" . $mrp . "',`price`='" . $price . "',`short_desc`='" . $short_desc . "',`description`='" . $description . "',`meta_title`='" . $meta_title . "',`meta_desc`='" . $meta_desc . "',`meta_keyword`='" . $meta_keyword . "',`image`='" . $image . "' WHERE `id`='" . $id . "'");
         } else {
-            $sql = "INSERT INTO `categories`(`categories`,`status`) VALUES('$category','0')";
+            $sql = "INSERT INTO `product`(`categories_id`,`name`,`mrp`,`price`,`short_desc`,`description`,`meta_title`,`meta_desc`,`meta_keyword`,`image`) VALUES('$categories_id','$name','$mrp','$price','$short_desc','$description','$meta_title','$meta_desc','$meta_keyword','$image','0')";
             mysqli_query($conn, $sql);
         }
-        header('location:categories.php');
+        header('location:product.php');
         die();
     }
 }
