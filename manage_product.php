@@ -55,14 +55,20 @@ if (isset($_POST['submit_category'])) {
     <div class="container">
         <h4>Add product</h4>
         <form method="POST">
-        <div class="form-group">
-              <select class="form-control" name="categories_id">
-              <option>Select Categories</option>
-              
-              </select>
+            <div class="form-group">
+                <select class="form-control" name="categories_id">
+                    <option>Select Categories</option>
+                    <?php
+                    $q = "SELECT id,categories FROM categories ORDER BY categories asc";
+                    $res = mysqli_query($conn, $q);
+                    while ($row = mysqli_fetch_assoc($res)) {
+                        echo "<option value = " . $row['id'] . ">" . $row['categories'] . "</option>";
+                    }
+                    ?>
+                </select>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" value="<?php echo $categories ?>" name="categories" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Category Name" required>
+                <input type="text" class="form-control" name="categories" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Category Name" required>
             </div>
             <br />
             <button type="submit" name="submit_category" class="btn btn-primary">Submit Category</button>
