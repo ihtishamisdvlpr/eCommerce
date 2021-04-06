@@ -10,11 +10,6 @@ $description = '';
 $meta_title = '';
 $meta_desc = '';
 $meta_keyword = '';
-
-
-
-
-
 $msg = '';
 if (isset($_GET['id']) && $_GET['id'] != '') {
     $id = get_safe_value($conn, $_GET['id']);
@@ -22,13 +17,22 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
     $check = mysqli_num_rows($res);
     if ($check > 0) {
         $row = mysqli_fetch_assoc($res);
-        $categories = $row['categories'];
+        $category = $row['categories_id'];
+        $name = $row['name'];
+        $mrp = $row['mrp'];
+        $price = $row['price'];
+        $short_desc = $row['short_desc'];
+        $description = $row['description'];
+        $meta_title = $row['meta_title'];
+        $meta_desc = $row['meta_desc'];
+        $meta_keyword = $row['meta_keyword'];
+        $image = $row['image'];
     } else {
         header('location:product.php');
         die();
     }
 }
-if (isset($_POST['submit_category'])) {
+if (isset($_POST['submit_product'])) {
     $category = get_safe_value($conn, $_POST['categories_id']);
     $name = get_safe_value($conn, $_POST['name']);
     $mrp = get_safe_value($conn, $_POST['mrp']);
@@ -56,6 +60,8 @@ if (isset($_POST['submit_category'])) {
         if (isset($_GET['id']) && $_GET['id'] != '') {
             mysqli_query($conn, "UPDATE `product` SET `categories_id`='" . $categories_id . "' ,`name`='" . $name . "',`mrp`='" . $mrp . "',`price`='" . $price . "',`short_desc`='" . $short_desc . "',`description`='" . $description . "',`meta_title`='" . $meta_title . "',`meta_desc`='" . $meta_desc . "',`meta_keyword`='" . $meta_keyword . "',`image`='" . $image . "' WHERE `id`='" . $id . "'");
         } else {
+            $image = rand(1111111111, 9999999999) . '_' . $_FILES['image']['image'];
+            move_uploaded_file($_FILES['image']['tmp_name'], '../media/product/' . $image);
             $sql = "INSERT INTO `product`(`categories_id`,`name`,`mrp`,`price`,`short_desc`,`description`,`meta_title`,`meta_desc`,`meta_keyword`,`image`) VALUES('$categories_id','$name','$mrp','$price','$short_desc','$description','$meta_title','$meta_desc','$meta_keyword','$image','0')";
             mysqli_query($conn, $sql);
         }
@@ -78,7 +84,7 @@ if (isset($_POST['submit_category'])) {
 <body>
     <div class="container">
         <h4>Add product</h4>
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <select class="form-control" name="categories_id">
                     <option>Select Categories</option>
@@ -86,7 +92,11 @@ if (isset($_POST['submit_category'])) {
                     $q = "SELECT id,categories FROM categories ORDER BY categories asc";
                     $res = mysqli_query($conn, $q);
                     while ($row = mysqli_fetch_assoc($res)) {
-                        echo "<option value = " . $row['id'] . ">" . $row['categories'] . "</option>";
+                        if ($row['id'] == $categories_id) {
+                            echo "<option selected value=" . $row['id'] . ">" . $row['categories'] . "</option>";
+                        } else {
+                            echo "<option value = " . $row['id'] . ">" . $row['categories'] . "</option>";
+                        }
                     }
                     ?>
                 </select>
@@ -132,7 +142,7 @@ if (isset($_POST['submit_category'])) {
             </div>
             </b>
 
-            <button type="submit" name="submit_category" class="btn btn-primary">Submit Category</button>
+            <button type="submit" name="submit_product" class="btn btn-primary">Submit Category</button>
         </form>
     </div>
     <!-- JavaScript Bundle with Popper -->
