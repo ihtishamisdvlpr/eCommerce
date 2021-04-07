@@ -33,6 +33,7 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
     }
 }
 if (isset($_POST['submit_product'])) {
+
     $category = get_safe_value($conn, $_POST['categories_id']);
     $name = get_safe_value($conn, $_POST['name']);
     $mrp = get_safe_value($conn, $_POST['mrp']);
@@ -42,9 +43,9 @@ if (isset($_POST['submit_product'])) {
     $meta_title = get_safe_value($conn, $_POST['meta_title']);
     $meta_desc = get_safe_value($conn, $_POST['meta_desc']);
     $meta_keyword = get_safe_value($conn, $_POST['meta_keyword']);
-    $image = get_safe_value($conn, $_POST['image']);
     $res = mysqli_query($conn, "SELECT * FROM product WHERE `name`='" . $name . "'");
     $check = mysqli_num_rows($res);
+    
     if ($check > 0) {
         if (isset($_GET['id']) && $_GET['id'] != '') {
             $getData = mysqli_fetch_assoc($res);
@@ -56,13 +57,11 @@ if (isset($_POST['submit_product'])) {
             echo $msg = "Product Already Exist";
         }
     }
-    if ($msg == '') {
+    if ($msg = '') {
         if (isset($_GET['id']) && $_GET['id'] != '') {
             mysqli_query($conn, "UPDATE `product` SET `categories_id`='" . $categories_id . "' ,`name`='" . $name . "',`mrp`='" . $mrp . "',`price`='" . $price . "',`short_desc`='" . $short_desc . "',`description`='" . $description . "',`meta_title`='" . $meta_title . "',`meta_desc`='" . $meta_desc . "',`meta_keyword`='" . $meta_keyword . "',`image`='" . $image . "' WHERE `id`='" . $id . "'");
         } else {
-            $image = rand(1111111111, 9999999999) . '_' . $_FILES['image']['image'];
-            move_uploaded_file($_FILES['image']['tmp_name'], '../media/product/' . $image);
-            $sql = "INSERT INTO `product`(`categories_id`,`name`,`mrp`,`price`,`short_desc`,`description`,`meta_title`,`meta_desc`,`meta_keyword`,`image`) VALUES('$categories_id','$name','$mrp','$price','$short_desc','$description','$meta_title','$meta_desc','$meta_keyword','$image','0')";
+            $sql = "INSERT INTO `product`(`categories_id`,`name`,`mrp`,`price`,`short_desc`,`description`,`meta_title`,`meta_desc`,`meta_keyword`) VALUES('$categories_id','$name','$mrp','$price','$short_desc','$description','$meta_title','$meta_desc','$meta_keyword','$image')";
             mysqli_query($conn, $sql);
         }
         header('location:product.php');
@@ -84,7 +83,7 @@ if (isset($_POST['submit_product'])) {
 <body>
     <div class="container">
         <h4>Add product</h4>
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" action="#" enctype="multipart/form-data">
             <div class="form-group">
                 <select class="form-control" name="categories_id">
                     <option>Select Categories</option>

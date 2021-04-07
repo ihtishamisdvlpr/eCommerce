@@ -21,7 +21,7 @@ if ($type == 'delete') {
    mysqli_query($conn, $delete_sql);
 }
 
-$sql = "select * from product left join categories on product.categories_id = categories.id order by product.id desc";
+$sql = "select product.id, product.name, product.image, product.mrp, product.price, product.qty, product.status, categories.categories from product left join categories on product.categories_id = categories.id order by product.id desc";
 $res = mysqli_query($conn, $sql);
 ?>
 <div class="content pb-0">
@@ -86,4 +86,4 @@ $res = mysqli_query($conn, $sql);
       </div>
    </div>
 </div>
-<?php require 'footer.inc.php'; ?>
+<?php require 'footer.inc.php'; ?>  
