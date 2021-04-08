@@ -3,7 +3,10 @@ $categories = '';
 $msg = '';
 if (isset($_GET['id']) && $_GET['id'] != '') {
     $id = get_safe_value($conn, $_GET['id']);
-    $res = mysqli_query($conn, "SELECT * FROM categories WHERE id='" . $id . "'");
+    $res = mysqli_query(
+        $conn,
+        "SELECT * FROM categories WHERE id='" . $id . "'"
+    );
     $check = mysqli_num_rows($res);
     if ($check > 0) {
         $row = mysqli_fetch_assoc($res);
@@ -15,23 +18,32 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 }
 if (isset($_POST['submit_category'])) {
     $category = get_safe_value($conn, $_POST['categories']);
-    $res = mysqli_query($conn, "SELECT * FROM categories WHERE id='" . $id . "'");
+    $res = mysqli_query(
+        $conn,
+        "SELECT * FROM categories WHERE id='" . $id . "'"
+    );
     $check = mysqli_num_rows($res);
     if ($check > 0) {
         if (isset($_GET['id']) && $_GET['id'] != '') {
             $getData = mysqli_fetch_assoc($res);
             if ($id == $getData['id']) {
-                
             } else {
-                echo $msg = "Category Already Exist";
+                echo $msg = 'Category Already Exist';
             }
         } else {
-            echo $msg = "Category Already Exist";
+            echo $msg = 'Category Already Exist';
         }
     }
     if ($msg == '') {
         if (isset($_GET['id']) && $_GET['id'] != '') {
-            mysqli_query($conn, "UPDATE `categories` SET `categories`='" . $category . "' WHERE `id`='" . $id . "'");
+            mysqli_query(
+                $conn,
+                "UPDATE `categories` SET `categories`='" .
+                    $category .
+                    "' WHERE `id`='" .
+                    $id .
+                    "'"
+            );
         } else {
             $sql = "INSERT INTO `categories`(`categories`,`status`) VALUES('$category','0')";
             mysqli_query($conn, $sql);
@@ -40,7 +52,6 @@ if (isset($_POST['submit_category'])) {
         die();
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +68,7 @@ if (isset($_POST['submit_category'])) {
         <h4>Add Category Name</h4>
         <form method="POST">
             <div class="form-group">
-                <input type="text" class="form-control" value="<?php echo $categories ?>" name="categories" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Category Name" required>
+                <input type="text" class="form-control" value="<?php echo $categories; ?>" name="categories" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Category Name" required>
             </div>
             <br />
             <button type="submit" name="submit_category" class="btn btn-primary">Submit Category</button>

@@ -21,54 +21,88 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
         $name = $row['name'];
         $mrp = $row['mrp'];
         $price = $row['price'];
+        $qty = $row['qty'];
         $short_desc = $row['short_desc'];
         $description = $row['description'];
         $meta_title = $row['meta_title'];
         $meta_desc = $row['meta_desc'];
         $meta_keyword = $row['meta_keyword'];
-        $image = $row['image'];
     } else {
         header('location:product.php');
         die();
     }
 }
 if (isset($_POST['submit_product'])) {
-
     $category = get_safe_value($conn, $_POST['categories_id']);
     $name = get_safe_value($conn, $_POST['name']);
     $mrp = get_safe_value($conn, $_POST['mrp']);
     $price = get_safe_value($conn, $_POST['price']);
+    $qty = get_safe_value($conn, $_POST['qty']);
     $short_desc = get_safe_value($conn, $_POST['short_desc']);
     $description = get_safe_value($conn, $_POST['description']);
     $meta_title = get_safe_value($conn, $_POST['meta_title']);
     $meta_desc = get_safe_value($conn, $_POST['meta_desc']);
     $meta_keyword = get_safe_value($conn, $_POST['meta_keyword']);
-    $res = mysqli_query($conn, "SELECT * FROM product WHERE `name`='" . $name . "'");
+    $status = 1;
+
+    $res = mysqli_query(
+        $conn,
+        "SELECT * FROM product WHERE `name`='" . $name . "'"
+    );
     $check = mysqli_num_rows($res);
-    
+
     if ($check > 0) {
         if (isset($_GET['id']) && $_GET['id'] != '') {
             $getData = mysqli_fetch_assoc($res);
             if ($id == $getData['id']) {
             } else {
-                echo $msg = "Product Already Exist";
+                echo $msg = 'Product Already Exist';
             }
         } else {
-            echo $msg = "Product Already Exist";
+            echo $msg = 'Product Already Exist';
         }
-    }
-    if ($msg = '') {
-        if (isset($_GET['id']) && $_GET['id'] != '') {
-            mysqli_query($conn, "UPDATE `product` SET `categories_id`='" . $categories_id . "' ,`name`='" . $name . "',`mrp`='" . $mrp . "',`price`='" . $price . "',`short_desc`='" . $short_desc . "',`description`='" . $description . "',`meta_title`='" . $meta_title . "',`meta_desc`='" . $meta_desc . "',`meta_keyword`='" . $meta_keyword . "',`image`='" . $image . "' WHERE `id`='" . $id . "'");
-        } else {
-            $sql = "INSERT INTO `product`(`categories_id`,`name`,`mrp`,`price`,`short_desc`,`description`,`meta_title`,`meta_desc`,`meta_keyword`) VALUES('$categories_id','$name','$mrp','$price','$short_desc','$description','$meta_title','$meta_desc','$meta_keyword','$image')";
-            mysqli_query($conn, $sql);
-        }
+    } else {
+
+        $sql = "INSERT INTO `product`(`categories_id`,`name`,`mrp`,`price`,`qty`,`short_desc`,`description`,`meta_title`,`meta_desc`,`meta_keyword`,`status`) 
+        VALUES('$category','$name','$mrp','$price','$qty','$short_desc','$description','$meta_title','$meta_desc','$meta_keyword','$status')";
+        mysqli_query($conn, $sql);
         header('location:product.php');
-        die();
     }
 }
 
+
+// if ($msg = '') {
+//     if (isset($_GET['id']) && $_GET['id'] != '') {
+//         mysqli_query(
+//             $conn,
+//             "UPDATE `product` SET `categories_id`='" .
+//                 $categories_id .
+//                 "' ,`name`='" .
+//                 $name .
+//                 "',`mrp`='" .
+//                 $mrp .
+//                 "',`price`='" .
+//                 $price .
+//                 "',`qty`='" .
+//                 $qty .
+//                 "',`short_desc`='" .
+//                 $short_desc .
+//                 "',`description`='" .
+//                 $description .
+//                 "',`meta_title`='" .
+//                 $meta_title .
+//                 "',`meta_desc`='" .
+//                 $meta_desc .
+//                 "',`meta_keyword`='" .
+//                 $meta_keyword .
+//                 "'WHERE `id`='" .
+//                 $id .
+//                 "'"
+//         );
+//     } else {
+// }
+// header('location:product.php');
+// die();
 ?>
 
 <!DOCTYPE html>
@@ -83,16 +117,17 @@ if (isset($_POST['submit_product'])) {
 <body>
     <div class="container">
         <h4>Add product</h4>
-        <form method="POST" action="#" enctype="multipart/form-data">
+        <form method="POST">
             <div class="form-group">
                 <select class="form-control" name="categories_id">
                     <option>Select Categories</option>
                     <?php
-                    $q = "SELECT id,categories FROM categories ORDER BY categories asc";
+                    $q =
+                        'SELECT id,categories FROM categories ORDER BY categories asc';
                     $res = mysqli_query($conn, $q);
                     while ($row = mysqli_fetch_assoc($res)) {
-                        if ($row['id'] == $categories_id) {
-                            echo "<option selected value=" . $row['id'] . ">" . $row['categories'] . "</option>";
+                        if ($row['id'] == $category) {
+                            echo "<option value=" . $row['id'] . ">" . $row['categories'] . "</option>";
                         } else {
                             echo "<option value = " . $row['id'] . ">" . $row['categories'] . "</option>";
                         }
@@ -117,27 +152,23 @@ if (isset($_POST['submit_product'])) {
             </div>
             </b>
             <div class="form-group">
-                <textarea type="text" class="form-control" value="<?php echo $short_desc; ?>" name="short_desc" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Short Description" required></textarea>
+                <textarea type="text" class="form-control" name="short_desc" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Short Description" required><?php echo $short_desc; ?></textarea>
             </div>
             </b>
             <div class="form-group">
-                <textarea type="text" class="form-control" value="<?php echo $description; ?>" name="description" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Description" required></textarea>
+                <textarea type="text" class="form-control" name="description" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Description" required><?php echo $description; ?></textarea>
             </div>
             </b>
             <div class="form-group">
-                <textarea type="text" class="form-control" value="<?php echo $meta_title; ?>" name="meta_title" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Title" required></textarea>
+                <textarea type="text" class="form-control" name="meta_title" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Title" required><?php echo $meta_title; ?></textarea>
             </div>
             </b>
             <div class="form-group">
-                <textarea type="text" class="form-control" value="<?php echo $meta_desc; ?>" name="meta_desc" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Description" required></textarea>
+                <textarea type="text" class="form-control" name="meta_desc" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Description" required><?php echo $meta_desc; ?></textarea>
             </div>
             </b>
             <div class="form-group">
-                <textarea type="text" class="form-control" value="<?php echo $meta_keyword; ?>" name="meta_keyword" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Keyword" required></textarea>
-            </div>
-            </b>
-            <div class="form-group">
-                <input type="file" class="form-control" value="<?php echo $image; ?>" name="image" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Image" required>
+                <textarea type="text" class="form-control" name="meta_keyword" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Keyword" required><?php echo $meta_keyword; ?></textarea>
             </div>
             </b>
 
