@@ -1,33 +1,33 @@
 <?php require 'top.inci.php';
 $type = '';
 if (isset($_GET['type']) && $_GET['type'] != '') {
-    $type = get_safe_value($conn, $_GET['type']);
-    if ($type == 'status') {
-        $operation = get_safe_value($conn, $_GET['operation']);
-        $id = get_safe_value($conn, $_GET['id']);
-        if ($operation == 'active') {
-            $status = '1';
-        } else {
-            $status = '0';
-        }
-        $update_status =
-            "UPDATE `product` SET `status`='" .
-            $status .
-            "' WHERE id='" .
-            $id .
-            "'";
-        $res = mysqli_query($conn, $update_status);
-    }
+   $type = get_safe_value($conn, $_GET['type']);
+   if ($type == 'status') {
+      $operation = get_safe_value($conn, $_GET['operation']);
+      $id = get_safe_value($conn, $_GET['id']);
+      if ($operation == 'active') {
+         $status = '1';
+      } else {
+         $status = '0';
+      }
+      $update_status =
+         "UPDATE `product` SET `status`='" .
+         $status .
+         "' WHERE id='" .
+         $id .
+         "'";
+      $res = mysqli_query($conn, $update_status);
+   }
 }
 
 if ($type == 'delete') {
-    $id = get_safe_value($conn, $_GET['id']);
-    $delete_sql = "DELETE FROM `product` where `id`='" . $id . "'";
-    mysqli_query($conn, $delete_sql);
+   $id = get_safe_value($conn, $_GET['id']);
+   $delete_sql = "DELETE FROM `product` where `id`='" . $id . "'";
+   mysqli_query($conn, $delete_sql);
 }
 
 $sql =
-    'select product.id, product.name, product.image, product.mrp, product.price, product.qty, product.status, categories.categories from product left join categories on product.categories_id = categories.id order by product.id desc';
+   'select product.id, product.name, product.image, product.mrp, product.price, product.qty, product.status, categories.categories from product left join categories on product.categories_id = categories.id order by product.id desc';
 $res = mysqli_query($conn, $sql);
 ?>
 <div class="content pb-0">
@@ -69,21 +69,21 @@ $res = mysqli_query($conn, $sql);
                                  <td>
                                     <?php
                                     if ($row['status'] == 1) {
-                                        echo "<a href='?type=status&operation=deactive&id=" .
-                                            $row['id'] .
-                                            "'>deactive</a>|";
+                                       echo "<a href='?type=status&operation=deactive&id=" .
+                                          $row['id'] .
+                                          "'>deactive</a>|";
                                     } else {
-                                        echo "<a href='?type=status&operation=active&id=" .
-                                            $row['id'] .
-                                            "'>active</a>|";
+                                       echo "<a href='?type=status&operation=active&id=" .
+                                          $row['id'] .
+                                          "'>active</a>|";
                                     }
 
                                     echo "<a href='?type=delete&id=" .
-                                        $row['id'] .
-                                        "'>Delete</a>|";
+                                       $row['id'] .
+                                       "'>Delete</a>|";
                                     echo "<a href='manage_product.php?id=" .
-                                        $row['id'] .
-                                        "'>Edit</a>";
+                                       $row['id'] .
+                                       "'>Edit</a>";
                                     ?>
                                  </td>
                               </tr>

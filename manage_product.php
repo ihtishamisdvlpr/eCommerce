@@ -11,6 +11,7 @@ $meta_title = '';
 $meta_desc = '';
 $meta_keyword = '';
 $msg = '';
+
 if (isset($_GET['id']) && $_GET['id'] != '') {
     $id = get_safe_value($conn, $_GET['id']);
     $res = mysqli_query($conn, "SELECT * FROM product WHERE id='" . $id . "'");
@@ -27,11 +28,9 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
         $meta_title = $row['meta_title'];
         $meta_desc = $row['meta_desc'];
         $meta_keyword = $row['meta_keyword'];
-    } else {
-        header('location:product.php');
-        die();
     }
 }
+
 if (isset($_POST['submit_product'])) {
     $category = get_safe_value($conn, $_POST['categories_id']);
     $name = get_safe_value($conn, $_POST['name']);
@@ -44,65 +43,40 @@ if (isset($_POST['submit_product'])) {
     $meta_desc = get_safe_value($conn, $_POST['meta_desc']);
     $meta_keyword = get_safe_value($conn, $_POST['meta_keyword']);
     $status = 1;
-
     $res = mysqli_query(
         $conn,
-        "SELECT * FROM product WHERE `name`='" . $name . "'"
+        "SELECT * FROM product WHERE name='" . $name . "'"
     );
     $check = mysqli_num_rows($res);
-
     if ($check > 0) {
         if (isset($_GET['id']) && $_GET['id'] != '') {
             $getData = mysqli_fetch_assoc($res);
             if ($id == $getData['id']) {
             } else {
-                echo $msg = 'Product Already Exist';
+                echo $msg = 'Category Already Exist';
             }
         } else {
-            echo $msg = 'Product Already Exist';
+            echo $msg = 'Category Already Exist';
         }
-    } else {
-
-        $sql = "INSERT INTO `product`(`categories_id`,`name`,`mrp`,`price`,`qty`,`short_desc`,`description`,`meta_title`,`meta_desc`,`meta_keyword`,`status`) 
-        VALUES('$category','$name','$mrp','$price','$qty','$short_desc','$description','$meta_title','$meta_desc','$meta_keyword','$status')";
-        mysqli_query($conn, $sql);
+    }
+    if ($msg == '') {
+        if (isset($_GET['id']) && $_GET['id'] != '') {
+            mysqli_query(
+                $conn,
+                "UPDATE `product` SET `categories_id`='" . $category . "' ,`name`='" . $name . "',`mrp`='" . $mrp . "',`price`='" . $price . "',
+                    `qty`='" . $qty . "',`short_desc`='" . $short_desc . "',`description`='" . $description . "',`meta_title`='" . $meta_title . "',`meta_desc`='" . $meta_desc . "',
+                    `meta_keyword`='" . $meta_keyword . "'WHERE `id`='" . $id . "'"
+            );
+        } else {
+            $sql = "INSERT INTO `product`(`categories_id`,`name`,`mrp`,`price`,`qty`,`short_desc`,`description`,`meta_title`,`meta_desc`,`meta_keyword`,`status`) 
+            VALUES('$category','$name','$mrp','$price','$qty','$short_desc','$description','$meta_title','$meta_desc','$meta_keyword','$status')";
+            mysqli_query($conn, $sql);
+        }
         header('location:product.php');
+        die();
     }
 }
 
-
-// if ($msg = '') {
-//     if (isset($_GET['id']) && $_GET['id'] != '') {
-//         mysqli_query(
-//             $conn,
-//             "UPDATE `product` SET `categories_id`='" .
-//                 $categories_id .
-//                 "' ,`name`='" .
-//                 $name .
-//                 "',`mrp`='" .
-//                 $mrp .
-//                 "',`price`='" .
-//                 $price .
-//                 "',`qty`='" .
-//                 $qty .
-//                 "',`short_desc`='" .
-//                 $short_desc .
-//                 "',`description`='" .
-//                 $description .
-//                 "',`meta_title`='" .
-//                 $meta_title .
-//                 "',`meta_desc`='" .
-//                 $meta_desc .
-//                 "',`meta_keyword`='" .
-//                 $meta_keyword .
-//                 "'WHERE `id`='" .
-//                 $id .
-//                 "'"
-//         );
-//     } else {
-// }
-// header('location:product.php');
-// die();
 ?>
 
 <!DOCTYPE html>
@@ -127,9 +101,9 @@ if (isset($_POST['submit_product'])) {
                     $res = mysqli_query($conn, $q);
                     while ($row = mysqli_fetch_assoc($res)) {
                         if ($row['id'] == $category) {
-                            echo "<option value=" . $row['id'] . ">" . $row['categories'] . "</option>";
+                            echo "<option value=" . $row['id'] . " required>" . $row['categories'] . "</option>";
                         } else {
-                            echo "<option value = " . $row['id'] . ">" . $row['categories'] . "</option>";
+                            echo "<option value = " . $row['id'] . " required>" . $row['categories'] . "</option>";
                         }
                     }
                     ?>
@@ -172,7 +146,8 @@ if (isset($_POST['submit_product'])) {
             </div>
             </b>
 
-            <button type="submit" name="submit_product" class="btn btn-primary">Submit Category</button>
+
+            <button type=" submit" name="submit_product" class="btn btn-primary">Submit Product</button>
         </form>
     </div>
     <!-- JavaScript Bundle with Popper -->
