@@ -48,6 +48,7 @@ $res = mysqli_query($conn, $sql);
                               <th>ID</th>
                               <th>Categories</th>
                               <th>Name</th>
+                              <th>Image</th>
                               <th>MRP</th>
                               <th>Price</th>
                               <th>Qty</th>
@@ -63,6 +64,7 @@ $res = mysqli_query($conn, $sql);
                                  <td><?php echo $row['id']; ?></td>
                                  <td><?php echo $row['categories']; ?></td>
                                  <td><?php echo $row['name']; ?></td>
+                                 <td><img src="../media/product/<?php echo $row['image']; ?>" /></td>
                                  <td><?php echo $row['mrp']; ?></td>
                                  <td><?php echo $row['price']; ?></td>
                                  <td><?php echo $row['qty']; ?></td>

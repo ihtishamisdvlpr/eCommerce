@@ -11,8 +11,9 @@ $meta_title = '';
 $meta_desc = '';
 $meta_keyword = '';
 $msg = '';
-
+$image_required = 'required';
 if (isset($_GET['id']) && $_GET['id'] != '') {
+    $image_required = '';
     $id = get_safe_value($conn, $_GET['id']);
     $res = mysqli_query($conn, "SELECT * FROM product WHERE id='" . $id . "'");
     $check = mysqli_num_rows($res);
@@ -28,6 +29,8 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
         $meta_title = $row['meta_title'];
         $meta_desc = $row['meta_desc'];
         $meta_keyword = $row['meta_keyword'];
+    } else {
+        header('location:product.php');
     }
 }
 
@@ -68,8 +71,10 @@ if (isset($_POST['submit_product'])) {
                     `meta_keyword`='" . $meta_keyword . "'WHERE `id`='" . $id . "'"
             );
         } else {
-            $sql = "INSERT INTO `product`(`categories_id`,`name`,`mrp`,`price`,`qty`,`short_desc`,`description`,`meta_title`,`meta_desc`,`meta_keyword`,`status`) 
-            VALUES('$category','$name','$mrp','$price','$qty','$short_desc','$description','$meta_title','$meta_desc','$meta_keyword','$status')";
+            $image = rand(111111111, 999999999) . '_' . $_FILES['image']['image'];
+            move_uploaded_file($_FILES['image']['tmp_name'], '../media/product/' . $image);
+            $sql = "INSERT INTO `product`(`categories_id`,`name`,`mrp`,`price`,`qty`,`short_desc`,`description`,`meta_title`,`meta_desc`,`meta_keyword`,`image`,`status`) 
+            VALUES('$category','$name','$mrp','$price','$qty','$short_desc','$description','$meta_title','$meta_desc','$meta_keyword','$image','$status')";
             mysqli_query($conn, $sql);
         }
         header('location:product.php');
@@ -91,8 +96,8 @@ if (isset($_POST['submit_product'])) {
 <body>
     <div class="container">
         <h4>Add product</h4>
-        <form method="POST">
-            <div class="form-group">
+        <form method="POST" enctype="multipart/form-data">
+            <div class=" form-group">
                 <select class="form-control" name="categories_id">
                     <option>Select Categories</option>
                     <?php
@@ -101,7 +106,7 @@ if (isset($_POST['submit_product'])) {
                     $res = mysqli_query($conn, $q);
                     while ($row = mysqli_fetch_assoc($res)) {
                         if ($row['id'] == $category) {
-                            echo "<option value=" . $row['id'] . " required>" . $row['categories'] . "</option>";
+                            echo "<option value=" . $row['id'] . " selected>" . $row['categories'] . "</option>";
                         } else {
                             echo "<option value = " . $row['id'] . " required>" . $row['categories'] . "</option>";
                         }
@@ -145,7 +150,10 @@ if (isset($_POST['submit_product'])) {
                 <textarea type="text" class="form-control" name="meta_keyword" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Keyword" required><?php echo $meta_keyword; ?></textarea>
             </div>
             </b>
-
+            <div class="form-group">
+                <input type="file" class="form-control" name="image" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Keyword" <?php echo $image_required; ?>></input>
+            </div>
+            </b>
 
             <button type=" submit" name="submit_product" class="btn btn-primary">Submit Product</button>
         </form>
