@@ -11,9 +11,7 @@ $meta_title = '';
 $meta_desc = '';
 $meta_keyword = '';
 $msg = '';
-$image_required = 'required';
 if (isset($_GET['id']) && $_GET['id'] != '') {
-    $image_required = '';
     $id = get_safe_value($conn, $_GET['id']);
     $res = mysqli_query($conn, "SELECT * FROM product WHERE id='" . $id . "'");
     $check = mysqli_num_rows($res);
@@ -71,8 +69,20 @@ if (isset($_POST['submit_product'])) {
                     `meta_keyword`='" . $meta_keyword . "'WHERE `id`='" . $id . "'"
             );
         } else {
-            $image = rand(111111111, 999999999) . '_' . $_FILES['image']['image'];
-            move_uploaded_file($_FILES['image']['tmp_name'], '../media/product/' . $image);
+            $image = $_FILES['image'];
+            $imagename = $image['name'];
+            $imageerror = $image['error'];
+            $imagetmp = $image['tmp_name'];
+            $imagetext = explode(".", $imagename);
+            $imagecheck = strtolower(end($image));
+            $imagestore = array('png', 'jpg', 'jpeg');
+
+            if (in_array($imagecheck, $imagestore)) {
+                $destination = '../media/product/' . $imagename;
+                move_uploaded_file($imagetmp, $destination);
+            }
+
+
             $sql = "INSERT INTO `product`(`categories_id`,`name`,`mrp`,`price`,`qty`,`short_desc`,`description`,`meta_title`,`meta_desc`,`meta_keyword`,`image`,`status`) 
             VALUES('$category','$name','$mrp','$price','$qty','$short_desc','$description','$meta_title','$meta_desc','$meta_keyword','$image','$status')";
             mysqli_query($conn, $sql);
@@ -151,7 +161,7 @@ if (isset($_POST['submit_product'])) {
             </div>
             </b>
             <div class="form-group">
-                <input type="file" class="form-control" name="image" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Keyword" <?php echo $image_required; ?>></input>
+                <input type="file" class="form-control" name="image" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Keyword"></input>
             </div>
             </b>
 
