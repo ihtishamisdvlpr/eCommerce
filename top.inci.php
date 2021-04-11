@@ -1,11 +1,11 @@
 <?php
 include 'functions.inc.php';
 
-  if (isset($_SESSION['is_login']) && $_SESSION['ADMIN_USERNAME'] != '') {
-  } else {
-      header('location:login.php');
-      die();
- }
+if (isset($_SESSION['is_login']) && $_SESSION['ADMIN_USERNAME'] != '') {
+} else {
+    header('location:login.php');
+    die();
+}
 ?>
 
 <!doctype html>
@@ -41,10 +41,10 @@ include 'functions.inc.php';
                         <a href="product.php">Product Master</a>
                     </li>
                     <li class="menu-item-has-children dropdown">
-                        <a href="#">Order  Master</a>
+                        <a href="#">Order Master</a>
                     </li>
                     <li class="menu-item-has-children dropdown">
-                        <a href="#">User Master</a>
+                        <a href="users.php">User Master</a>
                     </li>
                     <li class="menu-item-has-children dropdown">
                         <a href="contact_us.php">Contact Us</a>
