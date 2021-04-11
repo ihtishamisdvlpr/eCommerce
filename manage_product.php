@@ -11,7 +11,9 @@ $meta_title = '';
 $meta_desc = '';
 $meta_keyword = '';
 $msg = '';
+$image_required = "required";
 if (isset($_GET['id']) && $_GET['id'] != '') {
+    $image_required = '';
     $id = get_safe_value($conn, $_GET['id']);
     $res = mysqli_query($conn, "SELECT * FROM product WHERE id='" . $id . "'");
     $check = mysqli_num_rows($res);
@@ -60,31 +62,36 @@ if (isset($_POST['submit_product'])) {
             echo $msg = 'Category Already Exist';
         }
     }
+
+    if ($_FILES['image']['type'] != 'image/png' && $_FILES['image']['type'] != 'image/jpg' && $_FILES['image']['type'] != 'image/jpeg') {
+        echo $msg = 'please select only png,jpg and jpeg image format';
+    }
     if ($msg == '') {
         if (isset($_GET['id']) && $_GET['id'] != '') {
-            mysqli_query(
-                $conn,
-                "UPDATE `product` SET `categories_id`='" . $category . "' ,`name`='" . $name . "',`mrp`='" . $mrp . "',`price`='" . $price . "',
+            if ($_FILES['image']['name'] != '') {
+                $image_name = $_FILES['image']['name'];
+                move_uploaded_file($_FILES['image']['tmp_name'], "upload/" . $_FILES['image']['name']);
+                mysqli_query(
+                    $conn,
+                    "UPDATE `product` SET `categories_id`='" . $category . "' ,`name`='" . $name . "',`mrp`='" . $mrp . "',`price`='" . $price . "',
+                    `qty`='" . $qty . "',`short_desc`='" . $short_desc . "',`description`='" . $description . "',`meta_title`='" . $meta_title . "',`meta_desc`='" . $meta_desc . "',
+                    `meta_keyword`='" . $meta_keyword . "' , `image`='" . $image_name . "'WHERE `id`='" . $id . "'"
+                );
+            } else {
+                mysqli_query(
+                    $conn,
+                    "UPDATE `product` SET `categories_id`='" . $category . "' ,`name`='" . $name . "',`mrp`='" . $mrp . "',`price`='" . $price . "',
                     `qty`='" . $qty . "',`short_desc`='" . $short_desc . "',`description`='" . $description . "',`meta_title`='" . $meta_title . "',`meta_desc`='" . $meta_desc . "',
                     `meta_keyword`='" . $meta_keyword . "'WHERE `id`='" . $id . "'"
-            );
-        } else {
-            $image = $_FILES['image'];
-            $imagename = $image['name'];
-            $imageerror = $image['error'];
-            $imagetmp = $image['tmp_name'];
-            $imagetext = explode(".", $imagename);
-            $imagecheck = strtolower(end($image));
-            $imagestore = array('png', 'jpg', 'jpeg');
-
-            if (in_array($imagecheck, $imagestore)) {
-                $destination = '../media/product/' . $imagename;
-                move_uploaded_file($imagetmp, $destination);
+                );
             }
+        } else {
+            $image_name = $_FILES['image']['name'];
+            move_uploaded_file($_FILES['image']['tmp_name'], "upload/" . $_FILES['image']['name']);
 
 
             $sql = "INSERT INTO `product`(`categories_id`,`name`,`mrp`,`price`,`qty`,`short_desc`,`description`,`meta_title`,`meta_desc`,`meta_keyword`,`image`,`status`) 
-            VALUES('$category','$name','$mrp','$price','$qty','$short_desc','$description','$meta_title','$meta_desc','$meta_keyword','$image','$status')";
+            VALUES('$category','$name','$mrp','$price','$qty','$short_desc','$description','$meta_title','$meta_desc','$meta_keyword','$image_name','$status')";
             mysqli_query($conn, $sql);
         }
         header('location:product.php');
@@ -161,7 +168,7 @@ if (isset($_POST['submit_product'])) {
             </div>
             </b>
             <div class="form-group">
-                <input type="file" class="form-control" name="image" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Keyword"></input>
+                <input type="file" class="form-control" name="image" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pruduct Meta Keyword" <?php echo $image_required; ?>></input>
             </div>
             </b>
 
