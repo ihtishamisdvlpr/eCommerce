@@ -1,6 +1,4 @@
-<?php require("mainadmin/connection.inc.php");
-
-
+<?php require('function.php');
 $categoriesList = mysqli_query($conn, "SELECT * FROM `categories` WHERE `status` = 1 ORDER BY `categories` ASC");
 $categoriesArray = array();
 while ($row = mysqli_fetch_assoc($categoriesList)) {

@@ -140,23 +140,30 @@
         <div class="htc__product__container">
             <div class="row">
                 <div class="product__list clearfix mt--30">
-                    <!-- Start Single Category -->
-                    <div class="col-md-4 col-lg-3 col-sm-4 col-xs-12">
-                        <div class="category">
-                            <div class="ht__cat__thumb">
-                                <a href="theme/product-details.html">
-                                    <img src="theme/images/product/1.jpg" alt="product images">
-                                </a>
-                            </div>
-                            <div class="fr__product__inner">
-                                <h4><a href="theme/product-details.html">Largest Water Pot</a></h4>
-                                <ul class="fr__pro__prize">
-                                    <li class="old__prize">$30.3</li>
-                                    <li>$25.9</li>
-                                </ul>
+                    <?php $get_product = get_product($conn, 'latest', 4);
+                    foreach ($get_product as $list) {
+                    ?>
+                        <!-- Start Single Category -->
+                        <div class="col-md-4 col-lg-3 col-sm-4 col-xs-12">
+                            <div class="category">
+                                <div class="ht__cat__thumb">
+                                    <a href="theme/product-details.html">
+                                        <img src="theme/images/product/1.jpg" alt="product images">
+                                    </a>
+                                </div>
+                                <div class="fr__product__inner">
+                                    <h4><a href="theme/product-details.html">Largest Water Pot</a></h4>
+                                    <ul class="fr__pro__prize">
+                                        <li class="old__prize">$30.3</li>
+                                        <li>$25.9</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php
+
+                    }
+                    ?>
                     <!-- End Single Category -->
                 </div>
             </div>
