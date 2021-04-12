@@ -1,4 +1,4 @@
-<?php require 'header.php'; ?>
+<?php require('header.php'); ?>
 <div class="body__overlay"></div>
 <!-- Start Offset Wrapper -->
 <div class="offset__wrapper">
@@ -488,4 +488,4 @@
     </div>
 </section>
 <!-- End Product Area -->
-<?php require 'footer.php'; ?>
+<?php require('footer.php'); ?>
