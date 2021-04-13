@@ -1,11 +1,13 @@
 <?php
+
 require('mainadmin/connection.inc.php');
-function get_product($conn, $type = '', $limit = '')
+function get_product($conn, $limit = '', $categoriesId = '')
 {
     $sql = "SELECT * FROM `product` WHERE status=1";
-    if ($type == 'latest') {
-        $sql .= " ORDER BY id DESC";
+    if ($categoriesId != '') {
+        $sql .= " AND categories_id=$categoriesId";
     }
+    $sql .= " ORDER BY id DESC";
     if ($limit !== '') {
         $sql .= " limit $limit";
     }

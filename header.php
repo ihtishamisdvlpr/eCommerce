@@ -71,7 +71,7 @@ while ($row = mysqli_fetch_assoc($categoriesList)) {
                                         foreach ($categoriesArray as $list) {
                                         ?>
 
-                                            <li><a href="categories.php?id=<?php echo $list['id']; ?>"><?php echo $list['categories']; ?></a></li>
+                                            <li><a href="categoriesInside.php?id=<?php echo $list['id']; ?>"><?php echo $list['categories']; ?></a></li>
 
                                         <?php } ?>
                                         <li><a href="theme/contact.php">contact</a></li>
@@ -86,7 +86,7 @@ while ($row = mysqli_fetch_assoc($categoriesList)) {
                                             <?php foreach ($categoriesArray as $list) {
                                             ?>
 
-                                                <li><a href="categories.php?id=<?php echo $list['id'] ?>"><?php echo $list['categories'] ?></a></li>
+                                                <li><a href="categoriesInside.php?id=<?php echo $list['id'] ?>"><?php echo $list['categories'] ?></a></li>
 
                                             <?php } ?>
                                             <li><a href="contact.php">contact</a></li>

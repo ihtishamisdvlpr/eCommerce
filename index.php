@@ -140,14 +140,14 @@
         <div class="htc__product__container">
             <div class="row">
                 <div class="product__list clearfix mt--30">
-                    <?php $get_product = get_product($conn, 'latest', 4);
+                    <?php $get_product = get_product($conn, 4);
                     foreach ($get_product as $list) {
                     ?>
                         <!-- Start Single Category -->
                         <div class="col-md-4 col-lg-3 col-sm-4 col-xs-12">
                             <div class="category">
                                 <div class="ht__cat__thumb">
-                                    <a href="theme/product-details.html">
+                                    <a href="product.php?id=<?php echo $list['id']; ?>">
                                         <img src="mainadmin/upload/<?php echo $list['image']; ?>" alt="product images">
                                     </a>
                                 </div>
