@@ -45,7 +45,7 @@ if (isset($_POST['submit_category'])) {
                     "'"
             );
         } else {
-            $sql = "INSERT INTO `categories`(`categories`,`status`) VALUES('$category','0')";
+            $sql = "INSERT INTO `categories`(`categories`,`status`) VALUES('$category','1')";
             mysqli_query($conn, $sql);
         }
         header('location:categories.php');

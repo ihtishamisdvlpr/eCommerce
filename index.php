@@ -148,14 +148,14 @@
                             <div class="category">
                                 <div class="ht__cat__thumb">
                                     <a href="theme/product-details.html">
-                                        <img src="theme/images/product/1.jpg" alt="product images">
+                                        <img src="mainadmin/upload/<?php echo $list['image']; ?>" alt="product images">
                                     </a>
                                 </div>
                                 <div class="fr__product__inner">
-                                    <h4><a href="theme/product-details.html">Largest Water Pot</a></h4>
+                                    <h4><a href="theme/product-details.html"><?php echo $list['name']; ?></a></h4>
                                     <ul class="fr__pro__prize">
-                                        <li class="old__prize">$30.3</li>
-                                        <li>$25.9</li>
+                                        <li class="old__prize"><?php echo $list['mrp']; ?></li>
+                                        <li><?php echo $list['price']; ?></li>
                                     </ul>
                                 </div>
                             </div>
