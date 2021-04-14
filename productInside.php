@@ -12,8 +12,6 @@ $get_product = get_product($conn, '', '', $productId);
                         <nav class="bradcaump-inner">
                             <a class="breadcrumb-item" href="index.php">Home</a>
                             <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
-                            <a class="breadcrumb-item" href="theme/product-grid.html">Products</a>
-                            <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
                             <span class="breadcrumb-item active"><?php echo $get_product['0']['name']; ?></span>
                         </nav>
                     </div>
@@ -89,12 +87,8 @@ $get_product = get_product($conn, '', '', $productId);
                     <!-- Start Single Content -->
                     <div role="tabpanel" id="description" class="pro__single__content tab-pane fade in active">
                         <div class="pro__tab__content__inner">
-                            <p>Formfitting clothing is all about a sweet spot. That elusive place where an item is tight but not clingy, sexy but not cloying, cool but not over the top. Alexandra Alvarez’s label, Alix, hits that mark with its range of comfortable, minimal, and neutral-hued bodysuits.</p>
                             <h4 class="ht__pro__title">Description</h4>
                             <p><?php echo $get_product['0']['description']; ?></p>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
-                            <h4 class="ht__pro__title">Standard Featured</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in</p>
                         </div>
                     </div>
                     <!-- End Single Content -->

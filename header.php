@@ -74,7 +74,7 @@ while ($row = mysqli_fetch_assoc($categoriesList)) {
                                             <li><a href="categoriesInside.php?id=<?php echo $list['id']; ?>"><?php echo $list['categories']; ?></a></li>
 
                                         <?php } ?>
-                                        <li><a href="theme/contact.php">contact</a></li>
+                                        <li><a href="contact.php">contact</a></li>
 
                                     </ul>
                                 </nav>
