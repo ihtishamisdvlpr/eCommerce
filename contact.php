@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="search__inner">
-                        <form action="#" method="get">
+                        <form action="#" method="POST">
                             <input placeholder="Search here... " type="text">
                             <button type="submit"></button>
                         </form>
@@ -143,22 +143,18 @@
                     <form id="contact-form" action="#" method="post">
                         <div class="single-contact-form">
                             <div class="contact-box name">
-                                <input type="text" name="name" placeholder="Your Name*">
-                                <input type="email" name="email" placeholder="Mail*">
-                            </div>
-                        </div>
-                        <div class="single-contact-form">
-                            <div class="contact-box subject">
-                                <input type="text" name="subject" placeholder="Subject*">
+                                <input type="text" id="name" name="name" placeholder="Your Name*">
+                                <input type="email" id="email" name="email" placeholder="Mail*">
+                                <input type="text" id="mobile " name="mobile" placeholder="Mobile*">
                             </div>
                         </div>
                         <div class="single-contact-form">
                             <div class="contact-box message">
-                                <textarea name="message" placeholder="Your Message"></textarea>
+                                <textarea name="message" id="comment" placeholder="Your Message"></textarea>
                             </div>
                         </div>
                         <div class="contact-btn">
-                            <button type="submit" class="fv-btn">Send MESSAGE</button>
+                            <button type="button" onclick="send_message()" class="fv-btn">Send MESSAGE</button>
                         </div>
                     </form>
                     <div class="form-output">
@@ -377,6 +373,35 @@
             animation: google.maps.Animation.BOUNCE
 
         });
+    }
+
+
+    function send_message() {
+        var name = jQuery("#name").val();
+        var email = jQuery("#email").val();
+        var mobile = jQuery("#mobile").val();
+        var comment = jQuery("#comment").val();
+        var is_error = "";
+
+        if (name == '') {
+            alert('please enter your name ');
+        } else if (email == '') {
+            alert('please enter your email ');
+        } else if (mobile == '') {
+            alert('please enter your mobile ');
+        } else if (comment == '') {
+            alert('please enter your comment ');
+        } else {
+            jQuery.ajax({
+                url: 'sendMessage.php',
+                type: 'POST',
+                data: 'name=' + name + '&email=' + email + '&mobile=' + mobile + '&comment=' + comment,
+                success: function(result) {
+                    alert(result);
+                }
+            })
+        }
+
     }
 </script>
 
