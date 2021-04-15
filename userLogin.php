@@ -1,6 +1,4 @@
 <?php require('header.php'); ?>
-
-
 <div class="body__overlay"></div>
 <!-- Start Offset Wrapper -->
 <div class="offset__wrapper">
@@ -82,9 +80,9 @@
                 <div class="col-xs-12">
                     <div class="bradcaump__inner">
                         <nav class="bradcaump-inner">
-                            <a class="breadcrumb-item" href="index.html">Home</a>
+                            <a class="breadcrumb-item" href="index.php">Home</a>
                             <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
-                            <span class="breadcrumb-item active">Login</span>
+                            <span class="breadcrumb-item active">Login/Register</span>
                         </nav>
                     </div>
                 </div>
@@ -108,17 +106,17 @@
                         <form id="contact-form" action="#" method="post">
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="text" name="name" placeholder="Your Email*" style="width:100%">
+                                    <input type="email" name="email" id="email" placeholder="Your Email*" style="width:100%">
                                 </div>
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="text" name="name" placeholder="Your Password*" style="width:100%">
+                                    <input type="password" name="password" id="password" placeholder="Your Password*" style="width:100%">
                                 </div>
                             </div>
 
                             <div class="contact-btn">
-                                <button type="submit" class="fv-btn">Login</button>
+                                <button type="button" onclick="login()" class="fv-btn">Login</button>
                             </div>
                         </form>
                         <div class="form-output">
@@ -138,30 +136,30 @@
                         </div>
                     </div>
                     <div class="col-xs-12">
-                        <form id="contact-form" action="#" method="post">
+                        <form id="contact-form" action="#" method="POST">
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="text" name="name" placeholder="Your Name*" style="width:100%">
+                                    <input type="text" name="name" id="name" placeholder="Your Name*" style="width:100%">
                                 </div>
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="text" name="name" placeholder="Your Email*" style="width:100%">
+                                    <input type="text" name="email" id="email" placeholder="Your Email*" style="width:100%">
                                 </div>
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="text" name="name" placeholder="Your Mobile*" style="width:100%">
+                                    <input type="text" name="mobile" id="mobile" placeholder="Your Mobile*" style="width:100%">
                                 </div>
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="text" name="name" placeholder="Your Password*" style="width:100%">
+                                    <input type="password" name="password" id="password" placeholder="Your Password*" style="width:100%">
                                 </div>
                             </div>
 
                             <div class="contact-btn">
-                                <button type="submit" class="fv-btn">Register</button>
+                                <button type="register" onclick="register()" class="fv-btn">Register</button>
                             </div>
                         </form>
                         <div class="form-output">
@@ -176,5 +174,57 @@
 </section>
 <!-- End Contact Area -->
 <!-- End Banner Area -->
+
+<script>
+    function register() {
+        var name = jQuery("#name").val();
+        var email = jQuery("#email").val();
+        var mobile = jQuery("#mobile").val();
+        var password = jQuery("#password").val();
+        var is_error = "";
+
+        if (name == '') {
+            alert('please enter your name ');
+        } else if (email == '') {
+            alert('please enter your email ');
+        } else if (mobile == '') {
+            alert('please enter your mobile ');
+        } else if (password == '') {
+            alert('please enter your password ');
+        } else {
+            jQuery.ajax({
+                url: 'reg.php',
+                type: 'POST',
+                data: 'name=' + name + '&email=' + email + '&mobile=' + mobile + '&password=' + password,
+                success: function(result) {
+                    alert(result);
+                }
+            })
+        }
+
+    }
+
+    function login() {
+        var email = jQuery("#email").val();
+        var password = jQuery("#password").val();
+        var is_error = "";
+
+        if (email == '') {
+            alert('please enter your email ');
+        } else if (password == '') {
+            alert('please enter your password ');
+        } else {
+            jQuery.ajax({
+                url: 'log.php',
+                type: 'POST',
+                data: ' & email = ' + email + ' & password = ' + password,
+                success: function(result) {
+                    alert(result);
+                }
+            })
+        }
+
+    }
+</script>
 
 <?php require('footer.php'); ?>
