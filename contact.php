@@ -145,7 +145,7 @@
                             <div class="contact-box name">
                                 <input type="text" id="name" name="name" placeholder="Your Name*">
                                 <input type="email" id="email" name="email" placeholder="Mail*">
-                                <input type="text" id="mobile " name="mobile" placeholder="Mobile*">
+                                <input type="text" id="mobile" name="mobile" placeholder="Mobile*">
                             </div>
                         </div>
                         <div class="single-contact-form">
