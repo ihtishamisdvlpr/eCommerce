@@ -1,5 +1,6 @@
 <?php require('header.php');
 $categoriesId = mysqli_real_escape_string($conn, $_GET['id']);
+
 $get_product = get_product($conn, '', $categoriesId);
 ?>
 <div class="body__overlay"></div>

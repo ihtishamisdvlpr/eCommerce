@@ -58,8 +58,11 @@ $get_product = get_product($conn, '', '', $productId);
                                 <ul class="pro__cat__list">
                                     <li><a href="#">Fashion,</a></li>
                                 </ul>
-                            </div>
 
+                            </div>
+                            <div class="cr__btn">
+                                <a href="cart.html">Add To Cart</a>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -97,7 +97,7 @@ while ($row = mysqli_fetch_assoc($categoriesList)) {
                             <div class="col-md-3 col-lg-2 col-sm-4 col-xs-4">
                                 <div class="header__right">
                                     <div class="header__account">
-                                        <a href="login.php">Login/Register</i></a>
+                                        <a href="userLogin.php">Login/Register</i></a>
                                     </div>
                                     <div class="htc__shopping__cart">
                                         <a class="cart__menu" href="#"><i class="icon-handbag icons"></i></a>
