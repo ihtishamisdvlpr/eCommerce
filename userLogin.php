@@ -103,20 +103,20 @@
                         </div>
                     </div>
                     <div class="col-xs-12">
-                        <form id="contact-form" action="#" method="post">
+                        <form id="contact-form" action="" method="post">
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="email" name="email" id="email" placeholder="Your Email*" style="width:100%">
+                                    <input type="email" name="email" placeholder="Your Email*" style="width:100%">
                                 </div>
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="password" name="password" id="password" placeholder="Your Password*" style="width:100%">
+                                    <input type="password" name="password" placeholder="Your Password*" style="width:100%">
                                 </div>
                             </div>
 
                             <div class="contact-btn">
-                                <button type="button" onclick="login()" class="fv-btn">Login</button>
+                                <button type="submit" name="login" class="fv-btn">Login</button>
                             </div>
                         </form>
                         <div class="form-output">
@@ -136,30 +136,30 @@
                         </div>
                     </div>
                     <div class="col-xs-12">
-                        <form id="contact-form" action="#" method="POST">
+                        <form id="contact-form" action="#" method="post">
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="text" name="name" id="name" placeholder="Your Name*" style="width:100%">
+                                    <input type="text" name="name" placeholder="Your Name*" style="width:100%">
                                 </div>
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="text" name="email" id="email" placeholder="Your Email*" style="width:100%">
+                                    <input type="text" name="email" placeholder="Your Email*" style="width:100%">
                                 </div>
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="text" name="mobile" id="mobile" placeholder="Your Mobile*" style="width:100%">
+                                    <input type="text" name="mobile" placeholder="Your Mobile*" style="width:100%">
                                 </div>
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="password" name="password" id="password" placeholder="Your Password*" style="width:100%">
+                                    <input type="text" name="password" placeholder="Your Password*" style="width:100%">
                                 </div>
                             </div>
 
                             <div class="contact-btn">
-                                <button type="register" onclick="register()" class="fv-btn">Register</button>
+                                <button type="submit" name="register" class="fv-btn">Register</button>
                             </div>
                         </form>
                         <div class="form-output">
@@ -175,56 +175,32 @@
 <!-- End Contact Area -->
 <!-- End Banner Area -->
 
-<script>
-    function register() {
-        var name = jQuery("#name").val();
-        var email = jQuery("#email").val();
-        var mobile = jQuery("#mobile").val();
-        var password = jQuery("#password").val();
-        var is_error = "";
+<?php
+if (isset($_REQUEST['register'])) {
+    $name = get_safe_value($conn, $_POST['name']);
+    $email = get_safe_value($conn, $_POST['email']);
+    $mobile = get_safe_value($conn, $_POST['mobile']);
+    $password = get_safe_value($conn, md5($_POST['password']));
 
-        if (name == '') {
-            alert('please enter your name ');
-        } else if (email == '') {
-            alert('please enter your email ');
-        } else if (mobile == '') {
-            alert('please enter your mobile ');
-        } else if (password == '') {
-            alert('please enter your password ');
-        } else {
-            jQuery.ajax({
-                url: 'reg.php',
-                type: 'POST',
-                data: 'name=' + name + '&email=' + email + '&mobile=' + mobile + '&password=' + password,
-                success: function(result) {
-                    alert(result);
-                }
-            })
-        }
-
+    $checkIfExist = "SELECT * FROM `users` WHERE `email` = '$email'";
+    $result = mysqli_query($conn, $checkIfExist);
+    $row = mysqli_num_rows($result);
+    if ($row > 0) {
+        echo "email already exist";
+    } else {
+        $added_on = date('y-m-d h:i:s');
+        $insert = "INSERT INTO `users`(`name`, `password`, `email`, `mobile`, `added_on`) VALUES ('$name','$password','$email','$mobile','$added_on')";
+        mysqli_query($conn, $insert);
     }
-
-    function login() {
-        var email = jQuery("#email").val();
-        var password = jQuery("#password").val();
-        var is_error = "";
-
-        if (email == '') {
-            alert('please enter your email ');
-        } else if (password == '') {
-            alert('please enter your password ');
-        } else {
-            jQuery.ajax({
-                url: 'log.php',
-                type: 'POST',
-                data: ' & email = ' + email + ' & password = ' + password,
-                success: function(result) {
-                    alert(result);
-                }
-            })
-        }
-
+}
+if (isset($_REQUEST['login'])) {
+    $email = get_safe_value($conn, $_POST['email']);
+    $password = get_safe_value($conn, md5($_POST['password']));
+    $q = "SELECT * FROM `users` WHERE `email`='$email' AND `password`='$password'";
+    $res = mysqli_query($conn, $q);
+    if (mysqli_num_rows($res) > 0) {
+$row = mysqli_fetch_assoc($q)
     }
-</script>
-
+}
+?>
 <?php require('footer.php'); ?>

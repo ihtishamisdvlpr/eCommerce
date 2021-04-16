@@ -1,6 +1,17 @@
 <?php
 
 require('mainadmin/connection.inc.php');
+
+
+function get_safe_value($conn, $str)
+{
+    if ($str !== '') {
+        $str = trim($str);
+        return mysqli_real_escape_string($conn, $str);
+    }
+}
+
+
 function get_product($conn, $limit = '', $categoriesId = '', $productId = '')
 {
     $sql = "SELECT * FROM `product` WHERE status=1";
