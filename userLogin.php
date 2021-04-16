@@ -154,7 +154,7 @@
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="text" name="password" placeholder="Your Password*" style="width:100%">
+                                    <input type="password" name="password" placeholder="Your Password*" style="width:100%">
                                 </div>
                             </div>
 
@@ -198,8 +198,14 @@ if (isset($_REQUEST['login'])) {
     $password = get_safe_value($conn, md5($_POST['password']));
     $q = "SELECT * FROM `users` WHERE `email`='$email' AND `password`='$password'";
     $res = mysqli_query($conn, $q);
-    if (mysqli_num_rows($res) > 0) {
-$row = mysqli_fetch_assoc($q)
+    $check = mysqli_num_rows($res);
+    if ($check > 0) {
+        $row = mysqli_fetch_assoc($res);
+        $_SESSION['USER_LOGIN'] = true;
+        $_SESSION['USER_ID'] = $row['id'];
+        $_SESSION['USER_NAME'] = $row['name'];
+    } else {
+        echo "email and password is wrong";
     }
 }
 ?>
