@@ -204,6 +204,7 @@ if (isset($_REQUEST['login'])) {
         $_SESSION['USER_LOGIN'] = true;
         $_SESSION['USER_ID'] = $row['id'];
         $_SESSION['USER_NAME'] = $row['name'];
+        header('location:index.php');
     } else {
         echo "email and password is wrong";
     }
