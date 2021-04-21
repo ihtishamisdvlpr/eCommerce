@@ -106,12 +106,12 @@
                         <form id="contact-form" action="" method="post">
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="email" name="email" placeholder="Your Email*" style="width:100%">
+                                    <input type="email" name="login_email" placeholder="Your Email*" style="width:100%">
                                 </div>
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="password" name="password" placeholder="Your Password*" style="width:100%">
+                                    <input type="password" name="login_password" placeholder="Your Password*" style="width:100%">
                                 </div>
                             </div>
 
@@ -139,27 +139,31 @@
                         <form id="contact-form" action="#" method="post">
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="text" name="name" placeholder="Your Name*" style="width:100%">
+                                    <input type="text" name="name" id="name" placeholder="Your Name*" style="width:100%">
                                 </div>
+                                <span class="field_error" id="name_error"></span>
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="text" name="email" placeholder="Your Email*" style="width:100%">
+                                    <input type="text" name="email" id="email" placeholder="Your Email*" style="width:100%">
                                 </div>
+                                <span class="field_error" id="email_error"></span>
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="text" name="mobile" placeholder="Your Mobile*" style="width:100%">
+                                    <input type="text" name="mobile" id="mobile" placeholder="Your Mobile*" style="width:100%">
                                 </div>
+                                <span class="field_error" id="mobile_error"></span>
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="password" name="password" placeholder="Your Password*" style="width:100%">
+                                    <input type="password" name="password" id="password" placeholder="Your Password*" style="width:100%">
                                 </div>
+                                <span class="field_error" id="password_error"></span>
                             </div>
 
                             <div class="contact-btn">
-                                <button type="submit" name="register" class="fv-btn">Register</button>
+                                <button type="button" name="register" onclick="user_register()" class="fv-btn">Register</button>
                             </div>
                         </form>
                         <div class="form-output">
@@ -175,39 +179,50 @@
 <!-- End Contact Area -->
 <!-- End Banner Area -->
 
-<?php
-if (isset($_REQUEST['register'])) {
-    $name = get_safe_value($conn, $_POST['name']);
-    $email = get_safe_value($conn, $_POST['email']);
-    $mobile = get_safe_value($conn, $_POST['mobile']);
-    $password = get_safe_value($conn, md5($_POST['password']));
 
-    $checkIfExist = "SELECT * FROM `users` WHERE `email` = '$email'";
-    $result = mysqli_query($conn, $checkIfExist);
-    $row = mysqli_num_rows($result);
-    if ($row > 0) {
-        echo "email already exist";
-    } else {
-        $added_on = date('y-m-d h:i:s');
-        $insert = "INSERT INTO `users`(`name`, `password`, `email`, `mobile`, `added_on`) VALUES ('$name','$password','$email','$mobile','$added_on')";
-        mysqli_query($conn, $insert);
+<script type="text/javascript">
+    function user_register() {
+        jQuery('.field_error').html('');
+        var name = jQuery("#name").val();
+        var email = jQuery("#email").val();
+        var mobile = jQuery("#mobile").val();
+        var password = jQuery("#password").val();
+        var is_error = "";
+
+        if (name == '') {
+            jQuery('#name_error').html('Please Enter Name');
+            is_error = 'yes';
+        }
+        if (name == '') {
+            jQuery('#email_error').html('Please Enter Email');
+            is_error = 'yes';
+        }
+        if (name == '') {
+            jQuery('#mobile_error').html('Please Enter Mobile');
+            is_error = 'yes';
+        }
+        if (name == '') {
+            jQuery('#password_error').html('Please Enter Password');
+            is_error = 'yes';
+        }
+        if (is_error == '') {
+            jQuery.ajax({
+                url: 'user_signup.php',
+                type: 'POST',
+                data: 'name=' + name + '&email=' + email + '&mobile=' + mobile + '&password=' + password,
+                success: function(result) {
+                    if (result == 'present') {
+                        jQuery('#email_error').html('Email id Already Exist');
+                    }
+                    if (result == 'insert') {
+                        alert('thanks for registeration');
+                    }
+                }
+            })
+        }
+
     }
-}
-if (isset($_REQUEST['login'])) {
-    $email = get_safe_value($conn, $_POST['email']);
-    $password = get_safe_value($conn, md5($_POST['password']));
-    $q = "SELECT * FROM `users` WHERE `email`='$email' AND `password`='$password'";
-    $res = mysqli_query($conn, $q);
-    $check = mysqli_num_rows($res);
-    if ($check > 0) {
-        $row = mysqli_fetch_assoc($res);
-        $_SESSION['USER_LOGIN'] = true;
-        $_SESSION['USER_ID'] = $row['id'];
-        $_SESSION['USER_NAME'] = $row['name'];
-        header('location:index.php');
-    } else {
-        echo "email and password is wrong";
-    }
-}
-?>
+</script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
 <?php require('footer.php'); ?>

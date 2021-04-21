@@ -407,6 +407,7 @@
 
 
 
+
 <!-- Waypoints.min.js. -->
 <script src="js/waypoints.min.js"></script>
 <!-- Main js file that contents all jQuery plugins activation. -->
