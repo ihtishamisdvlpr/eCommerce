@@ -106,20 +106,22 @@
                         <form id="contact-form" action="" method="post">
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="email" name="login_email" placeholder="Your Email*" style="width:100%">
+                                    <input type="email" name="login_email" id="login_email" placeholder="Your Email*" style="width:100%">
                                 </div>
+                                <span class="field_error" id="login_email_error"></span>
                             </div>
                             <div class="single-contact-form">
                                 <div class="contact-box name">
-                                    <input type="password" name="login_password" placeholder="Your Password*" style="width:100%">
+                                    <input type="password" name="login_password" id="login_password" placeholder="Your Password*" style="width:100%">
                                 </div>
+                                <span class="field_error" id="login_password_error"></span>
                             </div>
 
                             <div class="contact-btn">
-                                <button type="submit" name="login" class="fv-btn">Login</button>
+                                <button type="button" name="login" onclick="user_login()" class="fv-btn">Login</button>
                             </div>
                         </form>
-                        <div class="form-output">
+                        <div class="form-output login_msg">
                             <p class="form-messege"></p>
                         </div>
                     </div>
@@ -193,15 +195,15 @@
             jQuery('#name_error').html('Please Enter Name');
             is_error = 'yes';
         }
-        if (name == '') {
+        if (email == '') {
             jQuery('#email_error').html('Please Enter Email');
             is_error = 'yes';
         }
-        if (name == '') {
+        if (mobile == '') {
             jQuery('#mobile_error').html('Please Enter Mobile');
             is_error = 'yes';
         }
-        if (name == '') {
+        if (password == '') {
             jQuery('#password_error').html('Please Enter Password');
             is_error = 'yes';
         }
@@ -216,6 +218,41 @@
                     }
                     if (result == 'insert') {
                         alert('thanks for registeration');
+                    }
+                }
+            })
+        }
+
+    }
+
+    function user_login() {
+        jQuery('.field_error').html('');
+        var email = jQuery("#login_email").val();
+        var password = jQuery("#login_password").val();
+        var is_error = "";
+
+
+        if (email == '') {
+            jQuery('#login_email_error').html('Please Enter Email');
+            is_error = 'yes';
+        }
+
+        if (password == '') {
+            jQuery('#login_password_error').html('Please Enter Password');
+            is_error = 'yes';
+        }
+        if (is_error == '') {
+            jQuery.ajax({
+                url: 'user_UserIn.php',
+                type: 'POST',
+                data: '&email=' + email + '&password=' + password,
+                success: function(result) {
+                    if (result == 'wrong') {
+                        jQuery('.login_msg p').html('Please Enter Valid Login Details');
+                    }
+                    if (result == 'valid') {
+                        window.location.href = "index.php";
+
                     }
                 }
             })
