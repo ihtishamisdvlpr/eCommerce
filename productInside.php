@@ -72,12 +72,12 @@ $get_product = get_product($conn, '', '', $productId);
                             <div class="sin__desc align--left">
                                 <p><span>Categories:</span></p>
                                 <ul class="pro__cat__list">
-                                    <li><a href="#">Fashion,</a></li>
+                                    <li><a href="#"></a></li>
                                 </ul>
 
                             </div>
                             <div class="cr__btn">
-                                <a href="cart.html">Add To Cart</a>
+                                <a href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product['0']['id']; ?>','add')">Add To Cart</a>
                             </div>
                         </div>
                     </div>
@@ -117,4 +117,17 @@ $get_product = get_product($conn, '', '', $productId);
         </div>
     </div>
 </section>
+<script type="text/javascript">
+    function manage_cart(pid, type) {
+        var qty = jQuery('#qty').val();
+        jQuery.ajax({
+            url: 'manage_cart.php',
+            type: 'post',
+            data: 'pid=' + pid + '&qty=' + qty + '&type=' + type,
+            success: function(result) {
+                jQuery('.htc__qua').html(result);
+            }
+        });
+    }
+</script>
 <?php require('footer.php'); ?>
