@@ -9,4 +9,10 @@ $obj = new add_to_cart();
 if ($type == 'add') {
     $obj->addproduct($pid, $qty);
 }
+if ($type == 'remove') {
+    $obj->removeProduct($pid);
+}
+if ($type == 'update') {
+    $obj->updateProduct($pid, $qty);
+}
 echo $obj->totalProduct();

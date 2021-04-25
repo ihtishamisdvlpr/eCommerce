@@ -431,6 +431,99 @@
 
 })(jQuery);
 
+function user_register() {
+    jQuery('.field_error').html('');
+    var name = jQuery("#name").val();
+    var email = jQuery("#email").val();
+    var mobile = jQuery("#mobile").val();
+    var password = jQuery("#password").val();
+    var is_error = "";
+
+    if (name == '') {
+        jQuery('#name_error').html('Please Enter Name');
+        is_error = 'yes';
+    }
+    if (email == '') {
+        jQuery('#email_error').html('Please Enter Email');
+        is_error = 'yes';
+    }
+    if (mobile == '') {
+        jQuery('#mobile_error').html('Please Enter Mobile');
+        is_error = 'yes';
+    }
+    if (password == '') {
+        jQuery('#password_error').html('Please Enter Password');
+        is_error = 'yes';
+    }
+    if (is_error == '') {
+        jQuery.ajax({
+            url: 'user_signup.php',
+            type: 'POST',
+            data: 'name=' + name + '&email=' + email + '&mobile=' + mobile + '&password=' + password,
+            success: function(result) {
+                if (result == 'present') {
+                    jQuery('#email_error').html('Email id Already Exist');
+                }
+                if (result == 'insert') {
+                    alert('thanks for registeration');
+                }
+            }
+        })
+    }
+
+}
+
+function user_login() {
+    jQuery('.field_error').html('');
+    var email = jQuery("#login_email").val();
+    var password = jQuery("#login_password").val();
+    var is_error = "";
 
 
+    if (email == '') {
+        jQuery('#login_email_error').html('Please Enter Email');
+        is_error = 'yes';
+    }
+
+    if (password == '') {
+        jQuery('#login_password_error').html('Please Enter Password');
+        is_error = 'yes';
+    }
+    if (is_error == '') {
+        jQuery.ajax({
+            url: 'user_UserIn.php',
+            type: 'POST',
+            data: '&email=' + email + '&password=' + password,
+            success: function(result) {
+                if (result == 'wrong') {
+                    jQuery('.login_msg p').html('Please Enter Valid Login Details');
+                }
+                if (result == 'valid') {
+                    window.location.href = "index.php";
+
+                }
+            }
+        })
+    }
+
+}
+
+function manage_cart(pid, type) {
+    if (type == 'update') {
+        var qty = jQuery('#' + pid + 'qty').val();
+    } else {
+        var qty = jQuery('#qty').val();
+    }
+    jQuery.ajax({
+        url: 'manage_cart.php',
+        type: 'post',
+        data: 'pid=' + pid + '&qty=' + qty + '&type=' + type,
+        success: function(result) {
+            if (type == 'update' || type == 'remove') {
+                window.location.href = "cart.php";
+            }
+            jQuery('.htc__qua').html(result);
+        }
+    });
+}
 

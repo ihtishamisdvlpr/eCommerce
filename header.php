@@ -1,10 +1,12 @@
 <?php require('function.php');
+require('add_to_cart.php');
 $categoriesList = mysqli_query($conn, "SELECT * FROM `categories` WHERE `status` = 1 ORDER BY `categories` ASC");
 $categoriesArray = array();
 while ($row = mysqli_fetch_assoc($categoriesList)) {
     $categoriesArray[] = $row;
 }
-
+$obj = new add_to_cart();
+$totalProduct = $obj->totalProduct();
 ?>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -106,7 +108,7 @@ while ($row = mysqli_fetch_assoc($categoriesList)) {
                                     </div>
                                     <div class="htc__shopping__cart">
                                         <a class="cart__menu" href="#"><i class="icon-handbag icons"></i></a>
-                                        <a href="#"><span class="htc__qua">0</span></a>
+                                        <a href="cart.php"><span class="htc__qua"><?php echo $totalProduct; ?></span></a>
                                     </div>
                                 </div>
                             </div>
