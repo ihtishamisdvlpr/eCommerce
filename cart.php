@@ -147,11 +147,10 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="buttons-cart--inner">
                                 <div class="buttons-cart">
-                                    <a href="#">Continue Shopping</a>
+                                    <a href="index.php">Continue Shopping</a>
                                 </div>
                                 <div class="buttons-cart checkout--btn">
-                                    <a href="#">update</a>
-                                    <a href="#">checkout</a>
+                                    <a href="checkout.php">checkout</a>
                                 </div>
                             </div>
                         </div>
