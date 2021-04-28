@@ -116,19 +116,20 @@ if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="checkout-method__login">
-                                                <form action="#">
+                                                <form action="#" method="post">
                                                     <h5 class="checkout-method__title">Login</h5>
                                                     <div class="single-input">
                                                         <label for="user-email">Email Address</label>
-                                                        <input type="email" id="user-email">
+                                                        <input type="email" name="login_email" id="login_email">
+                                                        <span class="field_error" id="login_email_error"></span>
                                                     </div>
                                                     <div class="single-input">
                                                         <label for="user-pass">Password</label>
-                                                        <input type="password" id="user-pass">
+                                                        <input type="password" name="login_password" id="login_password">
+                                                        <span class="field_error" id="login_password_error"></span>
                                                     </div>
-                                                    <p class="require">* Required fields</p>
                                                     <div class="dark-btn">
-                                                        <a href="#">LogIn</a>
+                                                        <a type="button" name="login" onclick="user_login()">LogIn</a>
                                                     </div>
                                                 </form>
                                             </div>
@@ -139,19 +140,31 @@ if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
                                                     <h5 class="checkout-method__title">Register</h5>
                                                     <div class="single-input">
                                                         <label for="user-email">Name</label>
-                                                        <input type="email" id="user-email">
+                                                        <input type="text" name="name" id="name">
+                                                        <span class="field_error" id="name_error"></span>
+
                                                     </div>
                                                     <div class="single-input">
                                                         <label for="user-email">Email Address</label>
-                                                        <input type="email" id="user-email">
+                                                        <input type="text" name="email" id="email">
+                                                        <span class="field_error" id="email_error"></span>
+
+                                                    </div>
+                                                    <div class="single-input">
+                                                        <label for="user-email">Mobile</label>
+                                                        <input type="text" name="mobile" id="mobile">
+                                                        <span class="field_error" id="mobile_error"></span>
+
                                                     </div>
 
                                                     <div class="single-input">
                                                         <label for="user-pass">Password</label>
-                                                        <input type="password" id="user-pass">
+                                                        <input type="password" name="password" id="password">
+                                                        <span class="field_error" id="password_error"></span>
+
                                                     </div>
                                                     <div class="dark-btn">
-                                                        <a href="#">Register</a>
+                                                        <a type="button" name="register" onclick="user_register()">Register</a>
                                                     </div>
                                                 </form>
                                             </div>

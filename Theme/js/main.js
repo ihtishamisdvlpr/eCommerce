@@ -499,7 +499,7 @@ function user_login() {
                     jQuery('.login_msg p').html('Please Enter Valid Login Details');
                 }
                 if (result == 'valid') {
-                    window.location.href = "index.php";
+                    window.location.href = window.location.href;
 
                 }
             }
