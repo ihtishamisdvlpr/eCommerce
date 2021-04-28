@@ -1,4 +1,12 @@
-<?php require('header.php'); ?>
+<?php require('header.php');
+if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
+?>
+    <script>
+        window.location.href = "index.php";
+    </script>
+<?php
+}
+?>
 
 <div class="body__overlay"></div>
 <!-- Start Offset Wrapper -->
@@ -151,7 +159,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="accordion__title">
+                            <div class="accordion__hide">
                                 Address Information
                             </div>
                             <div class="accordion__body">
@@ -197,7 +205,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="accordion__title">
+                            <div class="accordion__hide">
                                 payment information
                             </div>
                             <div class="accordion__body">

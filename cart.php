@@ -1,7 +1,4 @@
 <?php require('header.php'); ?>
-<?php
-// print_r($_SESSION);
-?>
 
 <div class="body__overlay"></div>
 <!-- Start Offset Wrapper -->
