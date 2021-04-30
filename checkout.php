@@ -6,7 +6,34 @@ if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
     </script>
 <?php
 }
+$cart_total = 0;
+if (isset($_POST['submit'])) {
+    $address = get_safe_value($conn, $_POST['address']);
+    $city = get_safe_value($conn, $_POST['city']);
+    $pincode = get_safe_value($conn, $_POST['pincode']);
+    $payment_type = get_safe_value($conn, $_POST['payment_type']);
+    $user_id = $_SESSION['USER_ID'];
+    foreach ($_SESSION['cart'] as $key => $val) {
+        $productarray = get_product($conn, '', '', $key);
+        $price = $productarray[0]['price'];
+        $qty = $productarray[0]['qty'];
+        $cart_total = $cart_total + ($price * $qty);
+    }
+    $total_price = $cart_total;
+    $payment_status = "pending";
+    if ($payment_type == 'cod') {
+        $payment_status = 'success';
+    }
+    $order_status = 'pending';
+    $added_on = date('y-m-d H:i:s');
+
+    mysqli_query($conn, "INSERT INTO `order`(`user_id`,`address`,`city`,`pincode`,`payment_type`,`payment_status`,`order_status`,`total_price`,`added_on`) 
+    VALUES('$user_id',' $address','$city','$pincode','$payment_type','$payment_status','$order_status','$total_price','$added_on')");
+}
+
 ?>
+
+
 
 <div class="body__overlay"></div>
 <!-- Start Offset Wrapper -->
