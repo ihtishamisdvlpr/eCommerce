@@ -29,6 +29,20 @@ if (isset($_POST['submit'])) {
 
     mysqli_query($conn, "INSERT INTO `order`(`user_id`,`address`,`city`,`pincode`,`payment_type`,`payment_status`,`order_status`,`total_price`,`added_on`) 
     VALUES('$user_id',' $address','$city','$pincode','$payment_type','$payment_status','$order_status','$total_price','$added_on')");
+
+    $order_id = mysqli_insert_id($conn);
+
+    foreach ($_SESSION['cart'] as $key => $val) {
+        $productarray = get_product($conn, '', '', $key);
+        $price = $productarray[0]['price'];
+        $qty = $productarray[0]['qty'];
+        mysqli_query($conn, "INSERT INTO `order_details`(`order_id`,`product_id`,`qty`,`price`) VALUES('$order_id','$key','$qty','$price')");
+    }
+?>
+    <script>
+        window.location.href = "thankyou.php";
+    </script>
+<?php
 }
 
 ?>
