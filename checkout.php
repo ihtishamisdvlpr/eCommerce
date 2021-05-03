@@ -38,6 +38,7 @@ if (isset($_POST['submit'])) {
         $qty = $productarray[0]['qty'];
         mysqli_query($conn, "INSERT INTO `order_details`(`order_id`,`product_id`,`qty`,`price`) VALUES('$order_id','$key','$qty','$price')");
     }
+    unset($_SESSION['cart']);
 ?>
     <script>
         window.location.href = "thankyou.php";
