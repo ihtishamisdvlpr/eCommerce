@@ -41,7 +41,7 @@ if (isset($_SESSION['is_login']) && $_SESSION['ADMIN_USERNAME'] != '') {
                         <a href="product.php">Product Master</a>
                     </li>
                     <li class="menu-item-has-children dropdown">
-                        <a href="#">Order Master</a>
+                        <a href="orderMaster.php">Order Master</a>
                     </li>
                     <li class="menu-item-has-children dropdown">
                         <a href="users.php">User Master</a>

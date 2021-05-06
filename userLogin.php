@@ -1,4 +1,14 @@
-<?php require('header.php'); ?>
+<?php require('header.php');
+
+if (isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN'] == 'yes') {
+?>
+    <script>
+        window.location.href = 'myOrder.php';
+    </script>
+<?php
+}
+
+?>
 <div class="body__overlay"></div>
 <!-- Start Offset Wrapper -->
 <div class="offset__wrapper">

@@ -113,7 +113,7 @@
                                 <tbody>
                                     <?php
                                     $uid = $_SESSION['USER_ID'];
-                                    $res = mysqli_query($conn, "SELECT * FROM `order` WHERE `user_id` = $uid ");
+                                    $res = mysqli_query($conn, "select `order`.*,order_status.name as order_status_str from `order`,order_status where `order`.user_id='$uid' and order_status.id=`order`.order_status");
                                     while ($row = mysqli_fetch_assoc($res)) {
 
 
@@ -124,7 +124,7 @@
                                             <td class="product-name"><a href="#"><?php echo $row['payment_type']; ?></a></td>
                                             <td class="product-name"><a href="#"><?php echo $row['payment_status']; ?></a></td>
                                             <td class="product-price"><span class="amount"><?php echo $row['order_status']; ?></span></td>
-                                            <td class="product-stock-status"><span class="wishlist-in-stock"><?php echo 1; ?></span></td>
+                                            <td class="product-stock-status"><span class="wishlist-in-stock"><?php echo $row['order_status_str']; ?></span></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
